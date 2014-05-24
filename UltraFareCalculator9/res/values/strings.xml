@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_search_place">SearchPlaces</string>
-    <string name="MainActivity_user_cancelled">Cancel</string> 
+    <string name="MainActivity_user_cancelled">Cancel</string>
+    <string name="hint_search_place_edittext">Place Search</string> 
 
 </resources>
