@@ -52,6 +52,7 @@
         <ListView
             android:id="@+id/searchresult_listview"
             android:layout_width="match_parent"
+            android:scrollbars="none"
             android:layout_height="wrap_content" >
         </ListView>
     </LinearLayout>

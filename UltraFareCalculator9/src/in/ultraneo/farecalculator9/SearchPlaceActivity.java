@@ -66,12 +66,13 @@ private static final String tag ="SearchPlaceActivity";
 		});
 	}
 	
-	class SearchResultThread extends AsyncTask<String, ResultSet, Void>{
+	class SearchResultThread extends AsyncTask<String, ResultSet, ArrayList<ResultSet>>{
 		
 		
 		@Override
 		protected void onPreExecute() {
 			adapter.clear();
+			array.clear();
 			super.onPreExecute();
 		}
 		
@@ -81,14 +82,15 @@ private static final String tag ="SearchPlaceActivity";
 			super.onCancelled();
 		}
 		
-		@Override
+		/*@Override
 		protected void onProgressUpdate(ResultSet... values) {
 			adapter.add(values[0]);
 			super.onProgressUpdate(values);
-		}
+		}*/
 		
 		@Override
-		protected Void doInBackground(String... params) {
+		protected ArrayList<ResultSet> doInBackground(String... params) {
+			ArrayList<ResultSet> resultlist = new ArrayList<ResultSet>();
 			try {
 				List<Address> address = geocoder.getFromLocationName(params[0], 20);
 				Log.i(tag, address.toString());
@@ -96,15 +98,22 @@ private static final String tag ="SearchPlaceActivity";
 				for (Address address2 : address) {
 					ResultSet result = new ResultSet();
 					result.setResultSet(address2.getFeatureName(), address2.getCountryName(), address2.getLatitude()+","+address2.getLongitude(), address2.getLatitude(), address2.getLongitude(),address2);
-					publishProgress(result);
+					resultlist.add(result);
 				}
 				
 			} catch (IOException e) {
 				Log.e(tag, "IO Exception");
 			}
-			return null;
+			return resultlist;
 		}
 
+		@Override
+		protected void onPostExecute(ArrayList<ResultSet> result) {
+			for (ResultSet resultSet : result) {
+				adapter.add(resultSet);
+			}
+			super.onPostExecute(result);
+		}
 		
 		
 	}
